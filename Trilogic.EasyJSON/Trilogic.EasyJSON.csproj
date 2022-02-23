@@ -2,6 +2,13 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <Authors>Andrew Friedl</Authors>
+    <Company>Trilogic Industries, LLC</Company>
+    <Description>A simple lightweight library for reading, writing and formatting JSON.</Description>
+    <RepositoryUrl>https://github.com/TriLogic/Trilogic.EasyJSON</RepositoryUrl>
+    <RepositoryType>GitHub</RepositoryType>
+    <PackageTags>JSON</PackageTags>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
 </Project>
