@@ -119,9 +119,10 @@ namespace Trilogic.EasyJSON
         {
             if (!string.IsNullOrEmpty(value))
             {
-                StringBuilder sb = new StringBuilder(value);
-                JSTools.EscapedToString(sb);
-                return Add(new JSString(this, sb.ToString()), key);
+                //StringBuilder sb = new StringBuilder(value);
+                //JSTools.EscapedToString(sb);
+                //return Add(new JSString(this, sb.ToString()), key);
+                return Add(new JSString(this, value), key);
             }
             return Add(new JSString(this, value), key);
         }

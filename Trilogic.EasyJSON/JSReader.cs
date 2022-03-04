@@ -178,7 +178,8 @@ namespace Trilogic.EasyJSON
                     return true;
 
                 case JSTokenType.TK_STRING:
-                    _item.AddString(_tokens.TokenAsString, key);
+                    StringBuilder temp = new StringBuilder(_tokens.TokenAsString);
+                    _item.AddString(temp.ToString(), key);
                     return true;
 
                 case JSTokenType.TK_NULL:
