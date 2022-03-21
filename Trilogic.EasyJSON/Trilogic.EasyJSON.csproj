@@ -11,8 +11,8 @@
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
     <PackageLicenseFile>License.txt</PackageLicenseFile>
     <Copyright>Copyright 2012 Trilogic Industries, LLC</Copyright>
-    <AssemblyVersion>1.0.2</AssemblyVersion>
-    <FileVersion>1.0.2</FileVersion>
+    <AssemblyVersion>1.0.4</AssemblyVersion>
+    <FileVersion>1.0.4</FileVersion>
 	<Version>$(FileVersion)</Version>
   </PropertyGroup>
 

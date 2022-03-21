@@ -190,9 +190,25 @@ namespace Trilogic.EasyJSON
         {
             throw new JSException("Invalid JSObject");
         }
+
+        public virtual Dictionary<string, JSItem> ToDictionary()
+        {
+            throw new JSException("Invalid JSObject");
+        }
+
         public virtual List<JSItem> GetList()
         { 
             throw new JSException("Invalid JSArray");
+        }
+
+        public virtual List<JSItem> ToList()
+        {
+            throw new JSException("Invalid JSArray");
+        }
+
+        public virtual bool Exists(string key)
+        {
+            throw new JSException("Invalid JSObject");
         }
         #endregion
 

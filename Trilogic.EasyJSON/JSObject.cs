@@ -23,10 +23,13 @@ namespace Trilogic.EasyJSON
         #endregion
 
         #region Override Functions
-        public override Dictionary<string, JSItem> GetDictionary() => _items;
+        public override Dictionary<string, JSItem> ToDictionary() => new Dictionary<string, JSItem>(_items);
+        public override Dictionary<string, JSItem> GetDictionary() => new Dictionary<string, JSItem>(_items);
         public override dynamic Value { get => _items; set => throw new JSException("Disallowed for container."); }
         public override int Count => _items.Count;
         public override bool IsObject => true;
+
+        public override bool Exists(string key) => _items.ContainsKey(key);
         #endregion
 
         #region ToString Functions
