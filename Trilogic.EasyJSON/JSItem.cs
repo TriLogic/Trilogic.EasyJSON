@@ -24,7 +24,16 @@ namespace Trilogic.EasyJSON
         #region Constructors and Destructors
         internal JSItem(JSItem parent)
         {
-            _parent = parent;
+            if (parent == null)
+                return;
+
+            if (parent.IsContainer)
+            {
+                _parent = parent;
+                return;
+            }
+
+            throw new JSException("Invalid container");
         }
         #endregion
 

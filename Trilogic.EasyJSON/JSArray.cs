@@ -23,8 +23,8 @@ namespace Trilogic.EasyJSON
         #endregion
 
         #region Override Functions
-        public override List<JSItem> ToList() => _items.ToList();
-        public override List<JSItem> GetList() => _items.ToList();
+        public override List<JSItem> ToList() => new List<JSItem>(_items);
+        public override List<JSItem> GetList() => _items;
         public override dynamic Value { get => _items; set => throw new JSException("Not allowed on container"); }
         public override int Count => _items.Count;
         public override bool IsArray => true;
