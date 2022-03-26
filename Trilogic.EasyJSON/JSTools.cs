@@ -360,9 +360,9 @@ namespace Trilogic.EasyJSON
                         case (char)92:  // \\
                             writer.Write(@"\\");
                             break;
-                        case (char)47:  // \/
-                            writer.Write(@"\/");
-                            break;
+ //                       case (char)47:  // \/
+ //                           writer.Write(@"\/");
+ //                           break;
                         case (char)08:  // \b
                             writer.Write(@"\b");
                             break;

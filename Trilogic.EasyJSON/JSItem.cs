@@ -248,7 +248,7 @@ namespace Trilogic.EasyJSON
 
         public virtual void Write(StreamWriter writer) => writer.Write(ToString());
 
-        public virtual void Write(StreamWriter writer, JSOutputFormat format, string IndentText = "\"t", bool ExpandEmpty = false)
+        public virtual void Write(StreamWriter writer, JSOutputFormat format, string IndentText = "\t", bool ExpandEmpty = false)
         {
             JSFormatter formatter = new JSFormatter(format, IndentText, ExpandEmpty);
             formatter.Write(writer, this);
