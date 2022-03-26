@@ -405,9 +405,9 @@ namespace Trilogic.EasyJSON
                         case (char)92:  // \\
                             buffer.Append("\\\\");
                             break;
-                        case (char)47:  // \/
-                            buffer.Append("\\/");
-                            break;
+//                        case (char)47:  // \/
+//                            buffer.Append("\\/");
+//                            break;
                         case (char)08:  // \b
                             buffer.Append("\\b");
                             break;
