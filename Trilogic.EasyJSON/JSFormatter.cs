@@ -676,23 +676,34 @@ namespace Trilogic.EasyJSON
             mArrayEmptyFunc = ExpandEmpty ? FnEmptyArrayExpanded : FnEmptyArray;
 
             mArrayOpenFunc = delegate (JSOutputContext context) {
+
+                /*
+                ** This code causes some text editors to improperly
+                ** expand/collapse code indented blocks
                 JSArray item = (JSArray)context.PeekObject();
                 if (item.Count > 0 && item[0].IsContainer && item[0].Count > 0)
                 {
                     context.Write("[ ");
                     return;
                 }
+                */
 
                 FnArrayOpenLinefeedIndent(context);
             };
             mArrayValueFunc = FnNoOutput;
             mArrayCommaFunc = delegate (JSOutputContext context) {
+
+                /*
+                ** This code causes some text editors to improperly
+                ** expand/collapse code indented blocks
+                /*
                 JSArray item = (JSArray)context.PeekObject();
                 if (item.Count > 0 && item[0].IsContainer && item[0].Count > 0)
                 {
                     context.Write(BlankBeforeComma ? " , " : ", ");
                     return;
                 }
+                */
 
                 if (BlankBeforeComma)
                     context.WriteTextLinefeedIndent(" ,");

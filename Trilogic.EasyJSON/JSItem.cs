@@ -44,6 +44,11 @@ namespace Trilogic.EasyJSON
             internal set { _parent = value; }
         }
 
+        public JSItem Root
+        {
+            get {  return _parent == null ? this : _parent.Root; }
+        }
+
         public abstract dynamic Value { get; set; }
 
         #region Type Related Properties
