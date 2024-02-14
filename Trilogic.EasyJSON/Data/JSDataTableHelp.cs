@@ -18,7 +18,7 @@ namespace Trilogic.EasyJSON.Data
 
     public static class JSDataTableHelp
     {
-        #region private data
+        #region Private data
         private static Dictionary<Type, JSGetColumnFunc> _fldMap;
         private static JSGetColumnFunc GetColBoolean;
         private static JSGetColumnFunc GetColNumber;

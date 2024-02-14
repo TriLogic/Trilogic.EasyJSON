@@ -18,6 +18,14 @@ namespace Trilogic.EasyJSON
         public override dynamic Value { get => _value; set => _value = value; }
         public override string ToString() => _value.ToString();
         public override bool IsNumber => true;
+
+        public override byte ToByte() => (byte)(double)Value;
+        public override int ToInteger() => (int)(double)Value;
+        public override long ToLong() => (long)(double)Value;
+        public override float ToFloat() => (float)(double)Value;
+        public override double ToDouble() => (double)Value;
+        public override bool HasNumericContent { get => true; }
+
         #endregion
     }
 }

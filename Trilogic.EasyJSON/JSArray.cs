@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -84,9 +85,24 @@ namespace Trilogic.EasyJSON
         }
         #endregion
 
+        #region Numeric Overrides
+        public override bool HasNumericContent
+        {
+            get
+            {
+                // only if every item in the array has numeric content
+                return Count > 0 && ToList()
+                    .Where(x => x.HasNumericContent == false)
+                    .FirstOrDefault() == null;
+            }
+        }
+        #endregion
+
+        #region Parsing
         public static new JSArray Parse (string json)
         {
             return new JSReader(json).ParseArray();
         }
+        #endregion
     }
 }

@@ -15,7 +15,7 @@ namespace Trilogic.EasyJSON
         Object
     }
 
-    public abstract class JSItem: System.Collections.IEnumerable
+    public abstract class JSItem : System.Collections.IEnumerable
     {
         #region Instance Members
         protected JSItem _parent;
@@ -38,7 +38,7 @@ namespace Trilogic.EasyJSON
         #endregion
 
         #region Properties
-        public JSItem Parent 
+        public JSItem Parent
         {
             get { return _parent; }
             internal set { _parent = value; }
@@ -46,7 +46,7 @@ namespace Trilogic.EasyJSON
 
         public JSItem Root
         {
-            get {  return _parent == null ? this : _parent.Root; }
+            get { return _parent == null ? this : _parent.Root; }
         }
 
         public abstract dynamic Value { get; set; }
@@ -164,13 +164,22 @@ namespace Trilogic.EasyJSON
         {
             return Add(new JSBoolean(this, value), key);
         }
+        public JSItem AddTrue(string key = null)
+        {
+            return AddBoolean(true, key);
+        }
+        public JSItem AddFalse(string key = null)
+        {
+            return AddBoolean(false, key);
+        }
+
         internal JSItem AddBoolean(string value, string key = null)
         {
             if (string.IsNullOrEmpty(value))
                 return AddBoolean(false, key);
-            if (string.Compare("true", value, true)==0)
+            if (string.Compare("true", value, true) == 0)
                 return AddBoolean("true", key);
-            if (string.Compare("false", value, true)==0)
+            if (string.Compare("false", value, true) == 0)
                 return AddBoolean(false, key);
             double test;
             if (double.TryParse(value, out test))
@@ -186,6 +195,7 @@ namespace Trilogic.EasyJSON
         {
             JSItem item = GetDictionary()[key];
             GetDictionary().Remove(key);
+
             item.Parent = null;
             return item;
         }
@@ -196,6 +206,21 @@ namespace Trilogic.EasyJSON
             GetList().RemoveAt(index);
             item.Parent = null;
             return item;
+        }
+
+        public virtual void Clear()
+        {
+            if (IsArray)
+            {
+                GetList().Clear();
+                return;
+            }
+            else if (IsObject)
+            {
+                GetDictionary().Clear();
+                return;
+            }
+            throw new Exception("Invalid Container");
         }
         #endregion
 
@@ -211,7 +236,7 @@ namespace Trilogic.EasyJSON
         }
 
         public virtual List<JSItem> GetList()
-        { 
+        {
             throw new JSException("Invalid JSArray");
         }
 
@@ -234,21 +259,55 @@ namespace Trilogic.EasyJSON
 
         public virtual string ToString(JSOutputFormat format, string IndentText = "\t", bool ExpandEmpty = false)
         {
-            MemoryStream mstream = new MemoryStream();
-            StreamWriter stream = new StreamWriter(mstream);
-            JSFormatter formatter = new JSFormatter(format, IndentText, ExpandEmpty);
-            Write(stream, formatter);
-            mstream.Flush();
-            mstream.Position = 0;
-            StreamReader reader = new StreamReader(mstream);
-            return reader.ReadToEnd();
+            using (MemoryStream mstream = new MemoryStream())
+            {
+                using (StreamWriter stream = new StreamWriter(mstream))
+                {
+                    JSFormatter formatter = new JSFormatter(format, IndentText, ExpandEmpty);
+                    Write(stream, formatter);
+                    mstream.Position = 0;
+                    using (StreamReader reader = new StreamReader(mstream))
+                    {
+                        return reader.ReadToEnd();
+                    }
+                }
+            }
         }
+        #endregion
+
+        #region Numeric Methods
+        public virtual byte ToByte()
+        {
+            throw new Exception("Invalid Numeric");
+        }
+        public virtual int ToInteger()
+        {
+            throw new Exception("Invalid Numeric");
+        }
+        public virtual long ToLong()
+        {
+            throw new Exception("Invalid Numeric");
+        }
+        public virtual float ToFloat()
+        {
+            throw new Exception("Invalid Numeric");
+        }
+        public virtual double ToDouble()
+        {
+            throw new Exception("Invalid Numeric");
+        }
+
+        public virtual bool HasNumericContent { get => false; }
+
         #endregion
 
         #region Write Methods
         public virtual void Write(Stream stream)
         {
-            Write(new StreamWriter(stream));
+            using (var writer = new StreamWriter(stream))
+            {
+                Write(writer);
+            }
         }
 
         public virtual void Write(StreamWriter writer) => writer.Write(ToString());
@@ -262,6 +321,7 @@ namespace Trilogic.EasyJSON
         public virtual void Write(StreamWriter writer, JSFormatter formatter)
         {
             formatter.Write(writer, this);
+            writer.Flush();
         }
 
         public virtual void Write(StringBuilder builder) => builder.Append(ToString());

@@ -300,12 +300,12 @@ namespace Trilogic.EasyJSON
         public static JSFormatFunc FnCommaSpaceLinefeed = delegate (JSOutputContext context) { context.WriteLine(", ");};
         public static JSFormatFunc FnCommaLinefeed = delegate (JSOutputContext context) { context.WriteLine(','); };
         public static JSFormatFunc FnSpaceComma = delegate (JSOutputContext context) { context.Write(" ,"); };
+        public static JSFormatFunc FnSpaceCommaSpace = delegate (JSOutputContext context) { context.Write(" , "); };
         public static JSFormatFunc FnSpaceCommaLinefeedIndent = delegate (JSOutputContext context) { context.WriteTextLinefeedIndent(" ,"); };
         public static JSFormatFunc FnSpaceCommaLinefeedOutdent = delegate (JSOutputContext context) { context.WriteTextLinefeedOutdent(" ,"); };
         public static JSFormatFunc FnSpaceCommaLinefeed = delegate (JSOutputContext context) { context.WriteLine(" ,"); };
         public static JSFormatFunc FnCommaLinefeedIndent = delegate (JSOutputContext context) { context.WriteLine(','); context.WriteIndent();  };
         public static JSFormatFunc FnCommaLinefeedOutdent = delegate (JSOutputContext context) { context.WriteLine(','); context.WriteOutdent(); };
-        public static JSFormatFunc FnSpaceCommaSpace = delegate (JSOutputContext context) { context.Write(" , "); };
         public static JSFormatFunc FnColon = delegate (JSOutputContext context) { context.Write(':'); };
         public static JSFormatFunc FnColonLinefeed = delegate (JSOutputContext context) { context.WriteLine(':'); };
         public static JSFormatFunc FnColonSpace = delegate (JSOutputContext context) { context.Write(": "); };
@@ -319,7 +319,7 @@ namespace Trilogic.EasyJSON
         public static JSFormatFunc FnEmptyArray = delegate (JSOutputContext context) { context.WriteArrayEmpty(); };
         public static JSFormatFunc FnEmptyArrayExpanded = delegate (JSOutputContext context) { context.WriteArrayEmptyExpanded(); };
 
-        public static JSFormatFunc FnArrayOpen = delegate (JSOutputContext context) { context.WriteObjectOpen(); };
+        public static JSFormatFunc FnArrayOpen = delegate (JSOutputContext context) { context.WriteArrayOpen(); };
         public static JSFormatFunc FnArrayOpenLinefeedIndent = delegate (JSOutputContext context) { context.WriteArrayOpenLinefeedIndent(); };
         public static JSFormatFunc FnArrayOpenLinefeedOutdent = delegate (JSOutputContext context) { context.WriteArrayOpenLinefeedOutdent(); };
         public static JSFormatFunc FnArrayClose = delegate (JSOutputContext context) { context.WriteArrayClose(); };
@@ -405,6 +405,10 @@ namespace Trilogic.EasyJSON
         {
             switch (format)
             {
+                case JSOutputFormat.OutputCompact:
+                    SetFormatCompact();
+                    break;
+
                 case JSOutputFormat.OutputAllman:
                     SetFormatAllman(IndentText, ExpandEmpty, BlankBeforeColon);
                     break;
@@ -603,7 +607,7 @@ namespace Trilogic.EasyJSON
                     SetFormatWhitesmith(IndentText, ExpandEmpty, BlankBeforeColon, BlankBeforeComma);
                     break;
                 case JSOutputFormat.OutputAllman:
-                    SetFormatWhitesmith(IndentText, ExpandEmpty, BlankBeforeColon, BlankBeforeComma);
+                    SetFormatAllman(IndentText, ExpandEmpty, BlankBeforeColon, BlankBeforeComma);
                     break;
             }
         }
@@ -613,7 +617,7 @@ namespace Trilogic.EasyJSON
             mArrayEmptyText = string.Empty;
             mObjectEmptyText = string.Empty;
 
-            #region Function Based (FAST)
+            #region Function Based Formatters
             mObjectEmptyFunc = FnEmptyObject;
 
             mObjectOpenFunc = FnObjectOpen;
@@ -623,7 +627,7 @@ namespace Trilogic.EasyJSON
             mObjectCommaFunc = FnComma;
             mObjectCloseFunc = FnWriteObjectClose;
 
-            mArrayEmptyFunc = FnEmptyObject;
+            mArrayEmptyFunc = FnEmptyArray;
 
             mArrayOpenFunc = FnArrayOpen;
             mArrayValueFunc = FnNoOutput;
@@ -631,7 +635,7 @@ namespace Trilogic.EasyJSON
             mArrayCloseFunc = FnArrayClose;
             #endregion
         }
-        public void SetFormatLinear(bool ExpandEmpty = false, bool BlankBeforeColon = false, bool BlankBeforeComma = false)
+        public void SetFormatLinear(bool ExpandEmpty = true, bool BlankBeforeColon = false, bool BlankBeforeComma = false)
         {
             mIndentText = string.Empty;
             mArrayEmptyText = ExpandEmpty ? " " : String.Empty;
@@ -643,16 +647,16 @@ namespace Trilogic.EasyJSON
 
             mObjectOpenFunc = FnObjectOpen;
             mObjectKeyFunc = FnNoOutput;
-            mObjectColonFunc = BlankBeforeColon ? FnSpaceColon : FnColon;
+            mObjectColonFunc = BlankBeforeColon ? FnSpaceColonSpace : FnColonSpace;
             mObjectValueFunc = FnNoOutput;
-            mObjectCommaFunc = BlankBeforeComma ? FnSpaceComma : FnComma;
+            mObjectCommaFunc = BlankBeforeComma ? FnSpaceCommaSpace : FnCommaSpace;
             mObjectCloseFunc = FnWriteObjectClose;
 
             mArrayEmptyFunc = ExpandEmpty ? FnEmptyArrayExpanded : FnEmptyArray;
 
             mArrayOpenFunc = FnArrayOpen;
             mArrayValueFunc = FnNoOutput;
-            mArrayCommaFunc = BlankBeforeComma ? FnSpaceComma : FnComma;
+            mArrayCommaFunc = BlankBeforeComma ? FnSpaceCommaSpace : FnCommaSpace;
             mArrayCloseFunc = FnArrayClose;
 
             #endregion
@@ -762,7 +766,7 @@ namespace Trilogic.EasyJSON
             mObjectOpenFunc = delegate (JSOutputContext context) {
                 if (context.PeekObject().Parent == null && context.IsTopLevel)
                 {
-                    context.WriteArrayOpen();
+                    context.WriteObjectOpen();
                     return;
                 }
                 context.WriteLinefeedIndent('{');
