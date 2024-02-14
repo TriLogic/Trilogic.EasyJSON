@@ -21,4 +21,12 @@
     <ProjectReference Include="..\Trilogic.EasyJSON\Trilogic.EasyJSON.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <EditorConfigFiles Remove="C:\Users\affriedl\Documents\GitHub\Trilogic.EasyJSON\Trilogic.EasyJSON.Tests\.editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="C:\Users\affriedl\Documents\GitHub\Trilogic.EasyJSON\Trilogic.EasyJSON.Tests\.editorconfig" />
+  </ItemGroup>
+
 </Project>
