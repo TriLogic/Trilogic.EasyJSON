@@ -15,6 +15,7 @@ namespace Trilogic.EasyJSON.Test
         const string ComplexObject = $"{{\"object\": {SimpleObject},\"empty\": {EmptyObject}}}";
         const string SimpleArray = "[\"Bob\",\"Jon\", \"Ted\"]";
         const string ComplexArray = $"[{SimpleArray},{EmptyArray}]";
+        const string ArrayOfAllTypes = $"[ null, true, 123.45, \"Bob\", {EmptyArray}, {SimpleArray}, {EmptyObject}, {SimpleObject} ]";
 
         [SetUp]
         public void Setup()
@@ -99,5 +100,23 @@ namespace Trilogic.EasyJSON.Test
             Assert.True(item2.Count == 0);
         }
 
+        [Test(Description = "Test parsing of a all JSON types")]
+        public void Test_Parse_ArrayOfAllTypes()
+        {
+            JSItem json = JSItem.Parse(ArrayOfAllTypes);
+
+            Assert.IsNotNull(json);
+            Assert.True(json.IsArray);
+            Assert.True(json.Count == 8);
+
+            Assert.True(json[0].IsNull);
+            Assert.True(json[1].IsBoolean);
+            Assert.True(json[2].IsNumber);
+            Assert.True(json[3].IsString);
+            Assert.True(json[4].IsArray);
+            Assert.True(json[5].IsArray);
+            Assert.True(json[6].IsObject);
+            Assert.True(json[7].IsObject);
+        }
     }
 }
