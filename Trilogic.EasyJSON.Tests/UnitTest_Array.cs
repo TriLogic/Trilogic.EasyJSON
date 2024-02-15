@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Trilogic.EasyJSON.Tests;
 
 namespace Trilogic.EasyJSON.Test
 {
@@ -176,5 +177,59 @@ namespace Trilogic.EasyJSON.Test
             Assert.AreEqual("[]", output);
         }
 
+        [Test(Description = "Test JSArray AsList returns all items")]
+        public void Test_JSArray_AsList_All()
+        {
+            JSItem item = TestHelp.BuildArrayOfStrings();
+
+            Exception exCaptured = null;
+            try
+            {
+                var list = item.AsListOf<JSString>();
+                Assert.AreEqual(item.Count, list.Count);
+            }
+            catch (Exception ex)
+            {
+                exCaptured = ex;
+            }
+            Assert.Null(exCaptured);
+        }
+
+        [Test(Description = "Test JSArray AsList returns partial list of items.")]
+        public void Test_JSArray_AsList_Partial()
+        {
+            JSItem item = TestHelp.BuildArrayOfStrings();
+            item.AddNumber(12345.67);
+
+            Exception exCaptured = null;
+            try
+            {
+                var list = item.AsListOf<JSNumber>();
+                Assert.AreEqual(1, list.Count);
+            }
+            catch (Exception ex)
+            {
+                exCaptured = ex;
+            }
+            Assert.Null(exCaptured);
+        }
+
+        [Test(Description = "Test JSArray AsList returns empty list.")]
+        public void Test_JSArry_AsList_None()
+        {
+            JSItem item = TestHelp.BuildArrayOfStrings();
+
+            Exception exCaptured = null;
+            try
+            {
+                var list = item.AsListOf<JSNull>();
+                Assert.Zero(list.Count);
+            }
+            catch (Exception ex)
+            {
+                exCaptured = ex;
+            }
+            Assert.Null(exCaptured);
+        }
     }
 }

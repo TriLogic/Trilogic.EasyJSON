@@ -8,25 +8,16 @@ namespace Trilogic.EasyJSON.App
 {
     class Program
     {
+        static string ExportName = "generated.out.json";
+        static string ImportName = $"{ExportName}";
+        static string VerifyName = "generated.inp.json";
+
         static void Main(string[] args)
         {
-            TestWriter();
             TestSerial(JSOutputFormat.OutputCompact);
 
             Console.WriteLine("Done...");
             Console.ReadKey();
-        }
-
-        public static void TestWriter()
-        {
-            var json = TestHelp.BuildCompleteObject();
-            ExportViaToString(json, "generated.format.json");
-        }
-
-        public static void TestReader()
-        {
-            var json = TestHelp.BuildCompleteObject();
-
         }
 
         public static string GetLocalPath(string FileName)
@@ -42,19 +33,20 @@ namespace Trilogic.EasyJSON.App
         {
             var jsonOut = TestHelp.BuildCompleteObject();
 
-            ExportViaToString(jsonOut, "generated.format-out.json");
+            ExportViaToString(jsonOut, ExportName, format);
 
             string valueOut = jsonOut.ToString(format);
 
             var jsonInp = JSItem.Parse(valueOut);
 
-            ExportViaToString(jsonInp, "generated.format-inp.json");
+            ExportViaToString(jsonInp, ImportName, format);
 
             string valueInp = jsonInp.ToString(format);
 
             var matched = string.Compare(valueOut, valueInp, false) == 0;
 
-            Console.WriteLine($"Strings Match: {matched}");
+            Console.WriteLine($"Strings Match: {matched}"
+                );
         }
 
         public static JSItem ImportFile(string fileName)

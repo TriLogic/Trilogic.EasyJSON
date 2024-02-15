@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Trilogic.EasyJSON.Tests;
 
 namespace Trilogic.EasyJSON.Test
 {
@@ -217,6 +218,61 @@ namespace Trilogic.EasyJSON.Test
             JSItem item= JSItem.CreateObject();
             string? output = item.ToString();
             Assert.AreEqual("{}", output);
+        }
+
+        [Test(Description = "Test JSObject AsDictionary returns all items.")]
+        public void Test_Object_AsDictionary_All()
+        {
+            JSItem item = TestHelp.BuildObjectOfStrings();
+
+            Exception exCaptured = null;
+            try
+            {
+                var dictionary = item.AsDictionaryOf<JSString>();
+                Assert.AreEqual(item.Count, dictionary.Count);
+            }
+            catch (Exception ex)
+            {
+                exCaptured = ex;
+            }
+            Assert.Null(exCaptured);
+        }
+
+        [Test(Description = "Test JSObject AsDictionary returns partial list of items.")]
+        public void Test_Object_AsDictionary_Partial()
+        {
+            JSItem item = TestHelp.BuildObjectOfStrings();
+            item.AddNumber(12345.67, "NonString");
+
+            Exception exCaptured = null;
+            try
+            {
+                var dictionary = item.AsDictionaryOf<JSNumber>();
+                Assert.AreEqual(1, dictionary.Count);
+            }
+            catch (Exception ex)
+            {
+                exCaptured = ex;
+            }
+            Assert.Null(exCaptured);
+        }
+
+        [Test(Description = "Test JSObject AsDictionary returns empty list.")]
+        public void Test_Object_AsDictionary_None()
+        {
+            JSItem item = TestHelp.BuildObjectOfStrings();
+
+            Exception exCaptured = null;
+            try
+            {
+                var dictionary = item.AsDictionaryOf<JSNull>();
+                Assert.Zero(dictionary.Count);
+            }
+            catch (Exception ex)
+            {
+                exCaptured = ex;
+            }
+            Assert.Null(exCaptured);
         }
 
     }
