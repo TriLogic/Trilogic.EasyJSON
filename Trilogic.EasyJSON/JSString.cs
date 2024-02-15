@@ -38,40 +38,47 @@ namespace Trilogic.EasyJSON
         }
 
         #region ToNumeric Overrides
-        public override byte ToByte()
-        {
-            byte result = 0;
-            if (byte.TryParse((string)Value, out result))
-                return result;
-            throw new System.Exception("Invalid Numeric");
-        }
-        public override int ToInteger()
-        {
-            int result = 0;
-            if (int.TryParse((string)Value, out result))
-                return result;
-            throw new System.Exception("Invalid Numeric");
-        }
-        public override long ToLong()
-        {
-            long result = 0;
-            if (long.TryParse((string)Value, out result))
-                return result;
-            throw new System.Exception("Invalid Numeric");
-        }
-        public override float ToFloat()
-        {
-            float result = 0;
-            if (float.TryParse((string)Value, out result))
-                return result;
-            throw new System.Exception("Invalid Numeric");
-        }
-        public override double ToDouble()
+        public override double GetNumber()
         {
             double result = 0;
             if (double.TryParse((string)Value, out result))
                 return result;
             throw new System.Exception("Invalid Numeric");
+        }
+        public override byte GetByte()
+        {
+            byte result = 0;
+            if (byte.TryParse((string)Value, out result))
+                return result;
+            throw new System.Exception("Invalid Byte");
+        }
+        public override int GetInteger()
+        {
+            int result = 0;
+            if (int.TryParse((string)Value, out result))
+                return result;
+            throw new System.Exception("Invalid Integer");
+        }
+        public override long GetLong()
+        {
+            long result = 0;
+            if (long.TryParse((string)Value, out result))
+                return result;
+            throw new System.Exception("Invalid Long");
+        }
+        public override float GetFloat()
+        {
+            float result = 0;
+            if (float.TryParse((string)Value, out result))
+                return result;
+            throw new System.Exception("Invalid Float");
+        }
+        public override double GetDouble()
+        {
+            double result = 0;
+            if (double.TryParse((string)Value, out result))
+                return result;
+            throw new System.Exception("Invalid Double");
         }
         public override bool HasNumericContent 
         {

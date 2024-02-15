@@ -1,7 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
+using System.Linq;
+using System.Reflection.Metadata.Ecma335;
+using System.Security.Cryptography;
 using System.Text;
+using System.Transactions;
 
 namespace Trilogic.EasyJSON
 {
@@ -275,30 +280,29 @@ namespace Trilogic.EasyJSON
         }
         #endregion
 
-        #region Numeric Methods
-        public virtual byte ToByte()
-        {
-            throw new Exception("Invalid Numeric");
-        }
-        public virtual int ToInteger()
-        {
-            throw new Exception("Invalid Numeric");
-        }
-        public virtual long ToLong()
-        {
-            throw new Exception("Invalid Numeric");
-        }
-        public virtual float ToFloat()
-        {
-            throw new Exception("Invalid Numeric");
-        }
-        public virtual double ToDouble()
-        {
-            throw new Exception("Invalid Numeric");
-        }
+        #region Casting to JSON Object Types
 
-        public virtual bool HasNumericContent { get => false; }
+        public T As<T>() where T : JSItem => (T)this;
+        public JSObject AsObject() => (JSObject)this;
+        public JSArray AsArray() => (JSArray)this;
+        public JSString AsString() => (JSString)this;
+        public JSNumber AsNumber() => (JSNumber)this;
+        public JSBoolean AsBoolean() => (JSBoolean)this;
+        public JSNull AsNull() => (JSNull)this;
 
+        public List<T> AsListOf<T>() where T : JSItem
+        {
+            return GetList()
+                .Where(item => item.GetType() == typeof(T))
+                .Select(item => item.As<T>())
+                .ToList();
+        }
+        public Dictionary<string,T> AsDictionaryOf<T>() where T : JSItem
+        {
+            return GetDictionary()
+                .Where(kvp => kvp.Value.GetType() == typeof(T))
+                .ToDictionary(kvp => kvp.Key, kvp => kvp.Value.As<T>());
+        }
         #endregion
 
         #region Write Methods
@@ -400,15 +404,10 @@ namespace Trilogic.EasyJSON
         #endregion
 
         #region Data Retrieval Methods
-        public bool GetBoolean()
+
+        #region Boolean Values
+        public virtual bool GetBoolean()
         {
-            if (IsBoolean)
-                return (bool)Value;
-            if (IsString)
-            {
-                if (bool.TryParse((string)Value, out bool temp))
-                    return temp;
-            }
             throw new JSException("Invalid boolean");
         }
         public bool GetBoolean(int index)
@@ -419,17 +418,12 @@ namespace Trilogic.EasyJSON
         {
             return this[key].GetBoolean();
         }
+        #endregion
 
-        public double GetNumber()
+        #region Number Values
+        public virtual double GetNumber()
         {
-            if (IsNumber)
-                return (double)Value;
-            if (IsString)
-            {
-                if (double.TryParse((string)Value, out double temp))
-                    return temp;
-            }
-            throw new JSException("Invalid numeric");
+            throw new JSException("Invalid number");
         }
         public double GetNumber(int index)
         {
@@ -439,7 +433,85 @@ namespace Trilogic.EasyJSON
         {
             return this[key].GetNumber();
         }
+        #endregion
 
+        #region Byte Values
+        public virtual byte GetByte()
+        {
+            throw new JSException("Invalid number");
+        }
+        public  byte GetByte(int index)
+        {
+            return this[index].GetByte();
+        }
+        public byte GetByte(string key)
+        {
+            return this[key].GetByte();
+        }
+        #endregion
+
+        #region Integer values
+        public virtual int GetInteger()
+        {
+            throw new JSException("Invalid number");
+        }
+        public int GetInteger(int index)
+        {
+            return this[index].GetInteger();
+        }
+        public int GetInteger(string key)
+        {
+            return this[key].GetInteger();
+        }
+        #endregion
+
+        #region Long Values
+        public virtual long GetLong()
+        {
+            throw new JSException("Invalid number");
+        }
+        public long GetLong(int index)
+        {
+            return this[index].GetLong();
+        }
+        public long GetLong(string key)
+        {
+            return this[key].GetLong();
+        }
+        #endregion
+
+        #region Float Values
+        public virtual float GetFloat()
+        {
+            throw new JSException("Invalid number");
+        }
+        public float GetFloat(int index)
+        {
+            return this[index].GetFloat();        }
+        public  float GetFloat(string key)
+        {
+            return this[key].GetFloat();
+        }
+        #endregion
+
+        #region Double Values
+        public virtual double GetDouble()
+        {
+            throw new JSException("Invalid number");
+        }
+        public double GetDouble(int index)
+        {
+            return this[index].GetDouble();
+        }
+        public double GetDouble(string key)
+        {
+            return this[key].GetDouble();
+        }
+        #endregion
+
+        public virtual bool HasNumericContent { get => false; }
+
+        #region String Values
         public string GetString()
         {
             if (IsString)
@@ -460,6 +532,7 @@ namespace Trilogic.EasyJSON
         {
             return this[key].GetString();
         }
+        #endregion
         #endregion
 
         #region IEnumerable

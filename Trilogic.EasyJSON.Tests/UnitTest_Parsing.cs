@@ -32,9 +32,9 @@ namespace Trilogic.EasyJSON.Test
             Assert.True(json.Count == 2);
             Assert.True(json.Exists("name"));
             var name = json["name"].GetString();
-            Assert.AreEqual(json["name"].GetString(), "Bob");
+            Assert.AreEqual("Bob", json["name"].GetString());
             Assert.True(json.Exists("age"));
-            Assert.AreEqual(json["age"].ToInteger(), 63);
+            Assert.AreEqual(63, json["age"].GetInteger());
         }
 
         [Test(Description = "Test parsing of a JSON array.")]
@@ -46,9 +46,9 @@ namespace Trilogic.EasyJSON.Test
             Assert.True(json.IsArray);
             Assert.True(json.Count == 3);
             var name = json[0].GetString();
-            Assert.AreEqual(json[0].GetString(), "Bob");
-            Assert.AreEqual(json[1].GetString(), "Jon");
-            Assert.AreEqual(json[2].GetString(), "Ted");
+            Assert.AreEqual("Bob", json[0].GetString());
+            Assert.AreEqual("Jon", json[1].GetString());
+            Assert.AreEqual("Ted", json[2].GetString());
         }
 
         [Test(Description = "Test parsing of a complex JSON array")]
@@ -63,9 +63,9 @@ namespace Trilogic.EasyJSON.Test
             var item1 = json[0];
             Assert.True(item1.IsArray);
             Assert.True(item1.Count == 3);
-            Assert.AreEqual(item1[0].GetString(), "Bob");
-            Assert.AreEqual(item1[1].GetString(), "Jon");
-            Assert.AreEqual(item1[2].GetString(), "Ted");
+            Assert.AreEqual("Bob", item1[0].GetString());
+            Assert.AreEqual("Jon", item1[1].GetString());
+            Assert.AreEqual("Ted", item1[2].GetString());
             
             var item2 = json[1];
             Assert.True(item2.IsArray);
@@ -89,11 +89,11 @@ namespace Trilogic.EasyJSON.Test
 
             Assert.True(item1.Exists("name"));
             Assert.True(item1["name"].IsString);
-            Assert.AreEqual(item1["name"].GetString(), "Bob");
+            Assert.AreEqual("Bob", item1["name"].GetString());
 
             Assert.True(item1.Exists("age"));
             Assert.True(item1["age"].IsNumber);
-            Assert.AreEqual(item1["age"].ToInteger(), 63);
+            Assert.AreEqual(63, item1["age"].GetInteger());
 
             var item2 = json["empty"];
             Assert.True(item2.IsObject);

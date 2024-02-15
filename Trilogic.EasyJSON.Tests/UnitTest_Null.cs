@@ -33,7 +33,7 @@ namespace Trilogic.EasyJSON.Test
             Assert.True(json.Count == 1);
             Assert.True(json[0].IsNull);
             string? output = json[0].ToString();
-            Assert.AreEqual(output, "null");
+            Assert.AreEqual("null", output);
         }
 
     }

@@ -18,6 +18,7 @@ namespace Trilogic.EasyJSON
         public override dynamic Value { get =>  _value; set => _value = value; }
         public override string ToString() => _value ? "true" : "false";
         public override bool IsBoolean => true;
+        public override bool GetBoolean() => (bool)Value;
         #endregion
     }
 }
