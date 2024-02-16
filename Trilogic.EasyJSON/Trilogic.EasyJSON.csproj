@@ -16,9 +16,14 @@
 	<Version>$(FileVersion)</Version>
 	<Title>Trilogic.JSON</Title>
 	<PackageProjectUrl>https://github.com/TriLogic/Trilogic.EasyJSON</PackageProjectUrl>
+	<PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
     <None Include="License.txt">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
