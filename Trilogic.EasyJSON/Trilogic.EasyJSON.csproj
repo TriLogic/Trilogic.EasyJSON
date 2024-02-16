@@ -8,12 +8,14 @@
     <RepositoryUrl>https://github.com/TriLogic/Trilogic.EasyJSON</RepositoryUrl>
     <RepositoryType>GitHub</RepositoryType>
     <PackageTags>JSON</PackageTags>
-    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <PackageLicenseFile>License.txt</PackageLicenseFile>
     <Copyright>Copyright 2012 Trilogic Industries, LLC</Copyright>
-    <AssemblyVersion>1.0.10</AssemblyVersion>
-    <FileVersion>1.0.10</FileVersion>
+    <AssemblyVersion>1.0.11</AssemblyVersion>
+    <FileVersion>1.0.11</FileVersion>
 	<Version>$(FileVersion)</Version>
+	<Title>Trilogic.JSON</Title>
+	<PackageProjectUrl>https://github.com/TriLogic/Trilogic.EasyJSON</PackageProjectUrl>
   </PropertyGroup>
 
   <ItemGroup>
